@@ -6,39 +6,87 @@ const Registration = require('../models/Registration');
 const router = express.Router();
 
 // Create Event
-router.post('/', verifyToken, async (req, res) => {
+router.post('/free-event', verifyToken, async (req, res) => {
   try {
-    const { name, type, startDate, endDate, location, tickets } = req.body;
-
-    // Basic Validation
-    if (!name || !type || !startDate || !endDate || !location) {
-      return res.status(400).json({ message: 'Missing required event fields' });
-    }
-
-    if (new Date(endDate) <= new Date(startDate)) {
-      return res.status(400).json({ message: 'End date must be after start date' });
-    }
-
-    // Ticket Validation (Removed name check)
-    if (tickets && tickets.length > 0) {
-      for (const ticket of tickets) {
-        if (ticket.price == null || ticket.quantity == null) {
-          return res.status(400).json({ message: 'Invalid ticket details: Price and Quantity are required.' });
-        }
-      }
-    }
-
-    const event = new Event({
+    // Force registrationType to 'free'
+    const eventData = {
       ...req.body,
-      organizer: req.user.id
+      registrationType: 'free',
+      organizer: req.user.id,
+      startDate: new Date(req.body.startDate),
+      endDate: new Date(req.body.endDate),
+      tickets: [] // No tickets for free events
+    };
+
+    // Create and save event
+    const event = new Event(eventData);
+    await event.save();
+
+    res.status(201).json(event);
+  } catch (err) {
+    console.error('Free event creation error:', {
+      error: err.message,
+      validationErrors: err.errors,
+      requestBody: req.body
     });
 
-    await event.save();
-    res.status(201).json(event);
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({
+        message: 'Validation failed',
+        errors: Object.values(err.errors).map(e => e.message)
+      });
+    }
 
+    res.status(500).json({
+      message: 'Failed to create free event',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
+});
+// Create Event
+router.post('/', verifyToken, async (req, res) => {
+  try {
+    // Normalize and validate registrationType first
+    const registrationType = req.body.registrationType?.toLowerCase()?.trim();
+    if (!['free', 'paid'].includes(registrationType)) {
+      return res.status(400).json({ 
+        message: 'Invalid registration type. Must be either "free" or "paid"' 
+      });
+    }
+
+    // Prepare event data
+    const eventData = {
+      ...req.body,
+      registrationType,
+      organizer: req.user.id,
+      startDate: new Date(req.body.startDate),
+      endDate: new Date(req.body.endDate),
+      tickets: registrationType === 'paid' ? req.body.tickets : []
+    };
+
+    // Create and save event
+    const event = new Event(eventData);
+    await event.save();
+
+    res.status(201).json(event);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to create event' });
+    console.error('Event creation error:', {
+      error: err.message,
+      validationErrors: err.errors,
+      requestBody: req.body
+    });
+
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({
+        message: 'Validation failed',
+        errors: Object.values(err.errors).map(e => e.message)
+      });
+    }
+
+    res.status(500).json({ 
+      message: 'Failed to create event',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 });
 
