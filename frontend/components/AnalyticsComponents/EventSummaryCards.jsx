@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FiCalendar, FiTrendingUp, FiAward } from 'react-icons/fi';
+import { apiUrl } from '../../utils/api';
 
 const EventSummaryCards = () => {
   const [eventStats, setEventStats] = useState({});
@@ -9,7 +10,7 @@ const EventSummaryCards = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get('http://localhost:5000/api/adminanalytics/event-stats')
+    axios.get(`${apiUrl}/api/adminanalytics/event-stats`)
       .then(res => {
         setEventStats(res.data);
         setIsLoading(false);

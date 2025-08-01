@@ -3,12 +3,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt, FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { apiUrl } from '../../utils/api';
 
 const RegisteredPage = () => {
   const [registeredEvents, setRegisteredEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+    
 
   useEffect(() => {
     fetchRegisteredEvents();
@@ -16,7 +18,7 @@ const RegisteredPage = () => {
 
   const fetchRegisteredEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/registrations/registered-events', {
+      const response = await axios.get(`${apiUrl}/api/registrations/registered-events`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

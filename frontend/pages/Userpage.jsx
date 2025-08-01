@@ -11,6 +11,7 @@ import { MdPayment } from 'react-icons/md';
 import UserFooter from '../components/UserComponents/UserFooter.jsx';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { assets } from '../src/assets/assets.js';
+import { apiUrl } from '../utils/api';
 
 const Userpage = () => {
   const [user, setUser] = useState(null);
@@ -26,7 +27,7 @@ const Userpage = () => {
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/users/user', {
+      const res = await axios.get(`${apiUrl}/api/users/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -1,12 +1,13 @@
 // RecentFeedbackTable.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { apiUrl } from '../../utils/api';
 
 const RecentFeedbackTable = () => {
   const [feedbacks, setFeedbacks] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/admin/feedbacks')
+    axios.get(`${apiUrl}/api/admin/feedbacks`)
       .then(res => setFeedbacks(res.data))
       .catch(err => console.error(err));
   }, []);

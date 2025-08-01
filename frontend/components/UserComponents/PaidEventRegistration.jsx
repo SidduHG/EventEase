@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { apiUrl } from '../../utils/api';
 
 const PaidEventRegistration = () => {
   const { eventId } = useParams();
@@ -36,7 +37,7 @@ const PaidEventRegistration = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/events/${eventId}`);
+        const { data } = await axios.get(`${apiUrl}/api/events/${eventId}`);
         setEvent(data);
         if (data.tickets.length > 0) {
           setSelectedTicket(data.tickets[0]._id);
@@ -60,7 +61,7 @@ const PaidEventRegistration = () => {
           return;
         }
 
-        const res = await axios.get(`http://localhost:5000/api/users/me`, {
+        const res = await axios.get(`${apiUrl}/api/users/me`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -111,7 +112,7 @@ const PaidEventRegistration = () => {
       });
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/payment/create-event-order',
+        `${apiUrl}/api/payment/create-event-order`,
         {
           eventId,
           ticketId: selectedTicket,
@@ -155,7 +156,7 @@ const PaidEventRegistration = () => {
             });
 
             const { data } = await axios.post(
-              'http://localhost:5000/api/payment/verify-event-payment',
+              `${apiUrl}/api/payment/verify-event-payment`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,

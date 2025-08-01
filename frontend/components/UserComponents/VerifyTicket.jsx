@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import QrScanner from 'react-qr-scanner';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { apiUrl } from '../../utils/api';
 
 const VerifyTicket = () => {
   const [verificationStatus, setVerificationStatus] = useState(null);
@@ -12,7 +13,7 @@ const VerifyTicket = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/events/verify-ticket',
+        `${apiUrl}/api/events/verify-ticket`,
         qrData,
         {
           headers: {

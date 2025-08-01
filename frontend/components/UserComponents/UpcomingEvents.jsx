@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendarAlt, FaUsers, FaMapMarkerAlt, FaClock, FaTicketAlt } from 'react-icons/fa';
+import { apiUrl } from '../../utils/api';
 
 const UpcomingEvents = () => {
     const [events, setEvents] = useState([]);
@@ -12,7 +13,7 @@ const UpcomingEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/events');
+                const response = await axios.get(`${apiUrl}/api/events`);
                 const events = Array.isArray(response.data) ? response.data : [];
                 events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
                 setEvents(events);

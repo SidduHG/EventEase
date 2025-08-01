@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { apiUrl } from '../../utils/api';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const Signup = () => {
     e.preventDefault();
     setErr('');
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', { email, password, role });
+      await axios.post(`${apiUrl}/api/auth/signup`, { email, password, role });
       navigate('/login');
     } catch (error) {
       setErr(error.response?.data?.message || 'Signup failed');

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaTicketAlt, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { apiUrl } from '../../utils/api';
 
 const MyEvents = () => {
     const [events, setEvents] = useState([]);
@@ -16,7 +17,7 @@ const MyEvents = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/events/my-events', {
+            const response = await axios.get(`${apiUrl}/api/events/my-events`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -36,7 +37,7 @@ const MyEvents = () => {
 
     const handleDeleteEvent = async (eventId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/events/${eventId}`, {
+            await axios.delete(`${apiUrl}/api/events/${eventId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

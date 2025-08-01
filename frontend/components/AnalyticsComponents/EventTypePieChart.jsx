@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import axios from 'axios';
 import { FiPieChart } from 'react-icons/fi';
+import { apiUrl } from '../../utils/api';
+ 
 
 const COLORS = [
   'rgba(20, 184, 166, 0.8)',  // teal
@@ -19,7 +21,7 @@ const EventTypePieChart = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get('http://localhost:5000/api/adminanalytics/event-type-stats')
+    axios.get(`${apiUrl}/api/adminanalytics/event-type-stats`)
       .then(res => {
         setEventTypes(res.data);
         setIsLoading(false);

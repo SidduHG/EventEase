@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt, FaLink, FaMapMarkerAlt, FaMoneyBillWave, FaTicketAlt, FaTrash, FaPlus } from 'react-icons/fa';
+import { apiUrl } from '../../utils/api';
 
 const EventForm = ({ onSubmit, initialData = {} }) => {
   const [formData, setFormData] = useState({
@@ -28,37 +29,69 @@ const EventForm = ({ onSubmit, initialData = {} }) => {
     saleEnd: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      ...formData,
-      maxAttendees: formData.maxAttendees === '' ? null : Number(formData.maxAttendees),
-      startDate: formData.startDate.toISOString(),
-      endDate: formData.endDate.toISOString(),
-      tickets: formData.tickets.map(ticket => ({
-        ...ticket,
-        saleStart: ticket.saleStart.toISOString(),
-        saleEnd: ticket.saleEnd.toISOString()
-      }))
-    };
+    setIsSubmitting(true);
+    setError(null);
 
     try {
+      // Prepare payload
+      const payload = {
+        name: formData.name.trim(),
+        type: formData.type.toLowerCase().trim(),
+        description: formData.description.trim(),
+        startDate: formData.startDate.toISOString(),
+        endDate: formData.endDate.toISOString(),
+        location: {
+          type: formData.location.type.toLowerCase().trim(),
+          address: formData.location.type === 'physical' ? formData.location.address.trim() : undefined,
+          url: formData.location.type !== 'physical' ? formData.location.url.trim() : undefined
+        },
+        registrationType: formData.registrationType.toLowerCase().trim(),
+        maxAttendees: formData.maxAttendees === '' ? null : Number(formData.maxAttendees),
+        tickets: formData.registrationType === 'paid' 
+          ? formData.tickets.map(ticket => ({
+              price: Number(ticket.price),
+              quantity: ticket.quantity ? Number(ticket.quantity) : null,
+              saleStart: ticket.saleStart.toISOString(),
+              saleEnd: ticket.saleEnd.toISOString()
+            }))
+          : []
+      };
+
+      // Validation checks
+      if (formData.registrationType === 'paid' && formData.tickets.length === 0) {
+        throw new Error('Paid events require at least one ticket option');
+      }
+
+      if (formData.endDate <= formData.startDate) {
+        throw new Error('End date must be after start date');
+      }
+
+      // Submit to backend
       const token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:5000/api/events', payload, {
+      const res = await axios.post(`${apiUrl}/api/events`, payload, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       });
 
       if (res.status === 201) {
         alert('Event created successfully!');
         onSubmit(res.data);
-      } else {
-        throw new Error('Unexpected response status: ' + res.status);
       }
     } catch (error) {
-      console.error('Submission error:', error);
-      alert('Failed to create event');
+      console.error('Submission error:', {
+        error: error.response?.data || error.message,
+        payload
+      });
+      setError(error.response?.data?.message || error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

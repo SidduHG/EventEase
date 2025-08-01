@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
+import { apiUrl } from '../../utils/api';
 
 const FeedbackPage = () => {
   const [name, setName] = useState('');
@@ -18,7 +19,7 @@ const FeedbackPage = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/feedback', {
+      await axios.post(`${apiUrl}/api/feedback`, {
         name,
         rating,
         comment

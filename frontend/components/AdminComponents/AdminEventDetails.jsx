@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { apiUrl } from '../../utils/api';
+
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -16,7 +18,7 @@ const EventDetails = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const res = await axios.get(`http://localhost:5000/api/admindashboard/event-details/${eventId}`);
+        const res = await axios.get(`${apiUrl}/api/admindashboard/event-details/${eventId}`);
         const fetchedEvent = res.data;
         setEvent(fetchedEvent);
         setAttendeeCount(fetchedEvent.attendeeCount || 0);

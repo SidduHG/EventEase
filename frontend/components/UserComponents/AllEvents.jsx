@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaTicketAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { apiUrl } from '../../utils/api';
 
 const AllEvents = () => {
     const [events, setEvents] = useState([]);
@@ -15,7 +16,7 @@ const AllEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/events', {
+                const response = await axios.get(`${apiUrl}/api/events`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

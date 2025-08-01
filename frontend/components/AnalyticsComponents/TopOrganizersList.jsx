@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FiAward, FiUser, FiTrendingUp } from 'react-icons/fi';
+import { apiUrl } from '../../utils/api';
 
 const TopOrganizersList = () => {
   const [topOrganizers, setTopOrganizers] = useState([]);
@@ -9,7 +10,7 @@ const TopOrganizersList = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get('http://localhost:5000/api/adminanalytics/top-organizers')
+    axios.get(`${apiUrl}/api/adminanalytics/top-organizers`)
       .then(res => {
         setTopOrganizers(res.data);
         setIsLoading(false);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { apiUrl } from '../../utils/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const Login = () => {
     setErr('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const res = await axios.post(`${apiUrl}/api/auth/login`, { email, password });
 
       const { token, user } = res.data;
 

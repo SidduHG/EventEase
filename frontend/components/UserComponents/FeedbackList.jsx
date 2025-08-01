@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaStar as Star, FaQuoteLeft as Quote, FaArrowRight as ArrowRight, FaUser } from 'react-icons/fa';
+import { apiUrl } from '../../utils/api';
 
 const FeedbackList = () => {
   const [reviews, setReviews] = useState([]);
@@ -13,7 +14,7 @@ const FeedbackList = () => {
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/feedback');
+        const response = await axios.get(`${apiUrl}/api/feedback`);
         setReviews(response.data);
       } catch (err) {
         console.error('Failed to fetch feedback:', err);

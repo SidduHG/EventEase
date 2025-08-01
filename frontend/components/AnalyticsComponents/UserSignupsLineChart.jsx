@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import axios from 'axios';
 import { FiUsers, FiActivity } from 'react-icons/fi';
+import { apiUrl } from '../../utils/api';
 
 const UserSignupsLineChart = () => {
   const [signups, setSignups] = useState([]);
@@ -10,7 +11,7 @@ const UserSignupsLineChart = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get('http://localhost:5000/api/adminanalytics/user-signups')
+    axios.get(`${apiUrl}/api/adminanalytics/user-signups`)
       .then(res => {
         setSignups(res.data);
         setIsLoading(false);

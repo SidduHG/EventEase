@@ -6,6 +6,7 @@ import QRCode from 'react-qr-code';
 import { FaDownload, FaPrint, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import html2canvas from 'html2canvas';
+import { apiUrl } from '../../utils/api';
 
 const EventTickets = () => {
   const { eventId } = useParams();
@@ -18,7 +19,7 @@ const EventTickets = () => {
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/events/${eventId}/ticket`, {
+        const response = await axios.get(`${apiUrl}/api/events/${eventId}/ticket`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -63,7 +64,7 @@ const EventTickets = () => {
 
   const verifyTicket = async (qrData) => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/events/verify-ticket`, {
+      const response = await axios.post(`${apiUrl}/api/events/verify-ticket`, {
         qrData,
         eventId
       }, {

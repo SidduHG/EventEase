@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEnvelopeOpenText, FaHeadset, FaReply } from 'react-icons/fa';
 import { FiAlertCircle } from 'react-icons/fi';
+import { apiUrl } from '../../utils/api';
 
 const SupportPortal = () => {
   const [queries, setQueries] = useState([]);
@@ -12,7 +13,7 @@ const SupportPortal = () => {
     const fetchQueries = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get('http://localhost:5000/api/adminanalytics/contact');
+        const res = await axios.get(`${apiUrl}/api/adminanalytics/contact`);
         setQueries(res.data);
       } catch (err) {
         setError('Failed to load queries. Please try again later.');

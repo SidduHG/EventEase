@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from '../../utils/api';
 
 const eventTypes = ['conference', 'concert', 'workshop'];
 const timeFilters = ['current', 'upcoming', 'past'];
@@ -19,7 +20,7 @@ const FilteredEventList = () => {
       setError(null);
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/admindashboard/filter?type=${selectedType}&time=${selectedTime}`
+          `${apiUrl}/api/admindashboard/filter?type=${selectedType}&time=${selectedTime}`
         );
         setFilteredEvents(res.data);
       } catch (err) {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { apiUrl } from '../../utils/api';
 
 // Load Razorpay SDK
 const loadRazorpayScript = () => {
@@ -26,7 +27,7 @@ const GetVerified = ({ isVerified, onVerified = () => {} }) => {
     }
 
     try {
-      const { data: order } = await axios.post("http://localhost:5000/api/payment/create-order", {
+      const { data: order } = await axios.post(`${apiUrl}/api/payment/create-order`, {
         amount: 1
       });
 
@@ -48,7 +49,7 @@ const GetVerified = ({ isVerified, onVerified = () => {} }) => {
 
         handler: async function (response) {
           try {
-            const verifyRes = await axios.post("http://localhost:5000/api/payment/verify-payment", {
+            const verifyRes = await axios.post(`${apiUrl}/api/payment/verify-payment`, {
               ...response
             }, {
               headers: {
