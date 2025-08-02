@@ -16,11 +16,12 @@ const AllEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/api/events`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
+                const response = await axios.get(apiUrl('/api/events'), {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
                 });
+
                 const allEvents = Array.isArray(response.data) ? response.data : [];
                 allEvents.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
                 setEvents(allEvents);

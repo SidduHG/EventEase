@@ -13,7 +13,7 @@ const SupportPortal = () => {
     const fetchQueries = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get(`${apiUrl}/api/adminanalytics/contact`);
+        const res = await axios.get(apiUrl('/api/adminanalytics/contact'));
         setQueries(res.data);
       } catch (err) {
         setError('Failed to load queries. Please try again later.');

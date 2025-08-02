@@ -14,8 +14,20 @@ const FeedbackList = () => {
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${apiUrl}/api/feedback`);
-        setReviews(response.data);
+        const response = await axios.get(apiUrl('/api/feedback'));
+        
+        // Debug log to verify response structure
+        console.log('Fetched feedback response:', response.data);
+
+        // Check if response.data is an array
+        if (Array.isArray(response.data)) {
+          setReviews(response.data);
+        } else if (Array.isArray(response.data.reviews)) {
+          setReviews(response.data.reviews);  // In case it's wrapped in a reviews object
+        } else {
+          throw new Error("Unexpected response format");
+        }
+        
       } catch (err) {
         console.error('Failed to fetch feedback:', err);
         setError('Failed to load reviews. Please try again later.');
@@ -23,6 +35,7 @@ const FeedbackList = () => {
         setLoading(false);
       }
     };
+
 
     fetchReviews();
   }, []);

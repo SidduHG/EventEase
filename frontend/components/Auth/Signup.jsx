@@ -20,7 +20,8 @@ const Signup = () => {
     e.preventDefault();
     setErr('');
     try {
-      await axios.post(`${apiUrl}/api/auth/signup`, { email, password, role });
+      await axios.post(apiUrl('/api/auth/signup'), { email, password,role });
+
       navigate('/login');
     } catch (error) {
       setErr(error.response?.data?.message || 'Signup failed');

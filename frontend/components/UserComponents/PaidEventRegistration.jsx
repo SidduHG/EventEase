@@ -37,7 +37,8 @@ const PaidEventRegistration = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const { data } = await axios.get(`${apiUrl}/api/events/${eventId}`);
+        const { data } = await axios.get(apiUrl(`/api/events/${eventId}`));
+
         setEvent(data);
         if (data.tickets.length > 0) {
           setSelectedTicket(data.tickets[0]._id);
@@ -61,9 +62,10 @@ const PaidEventRegistration = () => {
           return;
         }
 
-        const res = await axios.get(`${apiUrl}/api/users/me`, {
+        const res = await axios.get(apiUrl('/api/users/me'), {
           headers: { Authorization: `Bearer ${token}` }
         });
+
 
         if (res.data?.user) {
           setUser(res.data.user);
@@ -111,21 +113,21 @@ const PaidEventRegistration = () => {
         attendeeInfo
       });
 
-      const { data } = await axios.post(
-        `${apiUrl}/api/payment/create-event-order`,
-        {
-          eventId,
-          ticketId: selectedTicket,
-          quantity,
-          attendeeInfo
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+     const { data } = await axios.post(
+      apiUrl('/api/payment/create-event-order'),
+      {
+        eventId,
+        ticketId: selectedTicket,
+        quantity,
+        attendeeInfo
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      );
+      }
+    );
 
       // 4. Handle response
       if (!data?.success) {
@@ -155,8 +157,7 @@ const PaidEventRegistration = () => {
               paymentId: response.razorpay_payment_id
             });
 
-            const { data } = await axios.post(
-              `${apiUrl}/api/payment/verify-event-payment`,
+            const { data } = await axios.post(apiUrl(`/api/payment/verify-event-payment`),
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,

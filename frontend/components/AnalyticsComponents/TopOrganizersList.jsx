@@ -10,7 +10,7 @@ const TopOrganizersList = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`${apiUrl}/api/adminanalytics/top-organizers`)
+    axios.get(apiUrl(`/api/adminanalytics/top-organizers`))
       .then(res => {
         setTopOrganizers(res.data);
         setIsLoading(false);

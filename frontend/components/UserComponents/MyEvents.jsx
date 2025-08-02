@@ -17,11 +17,12 @@ const MyEvents = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/api/events/my-events`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
+            const response = await axios.get(apiUrl('/api/events/my-events'), {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
             });
+
             setEvents(response.data);
             setLoading(false);
         } catch (err) {
@@ -37,11 +38,12 @@ const MyEvents = () => {
 
     const handleDeleteEvent = async (eventId) => {
         try {
-            await axios.delete(`${apiUrl}/api/events/${eventId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
+           await axios.delete(apiUrl(`/api/events/${eventId}`), {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
             });
+
             toast.success('Event deleted successfully');
             setEvents(events.filter(event => event._id !== eventId));
         } catch (err) {

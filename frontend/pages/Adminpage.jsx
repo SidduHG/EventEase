@@ -26,7 +26,7 @@ const Adminpage = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`${apiUrl}/api/admindashboard/stats`);
+        const response = await axios.get(apiUrl(`/api/admindashboard/stats`));
         const data = await response.data;
         setStats({
           totalEvents: data.totalEvents,
@@ -47,7 +47,7 @@ const Adminpage = () => {
     const fetchRecentEvents = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`${apiUrl}/api/admindashboard/recent-events`);
+        const response = await axios.get(apiUrl(`/api/admindashboard/recent-events`));
         setEvents(response.data.recentEvents || []);
       } catch (err) {
         console.log('Failed to fetch events', err);

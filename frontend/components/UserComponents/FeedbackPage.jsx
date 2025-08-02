@@ -19,7 +19,7 @@ const FeedbackPage = () => {
     }
 
     try {
-      await axios.post(`${apiUrl}/api/feedback`, {
+      await axios.post(apiUrl('/api/feedback'), {
         name,
         rating,
         comment

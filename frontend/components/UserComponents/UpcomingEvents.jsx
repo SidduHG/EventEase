@@ -13,7 +13,7 @@ const UpcomingEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/api/events`);
+                const response = await axios.get(apiUrl(`/api/events`));
                 const events = Array.isArray(response.data) ? response.data : [];
                 events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
                 setEvents(events);

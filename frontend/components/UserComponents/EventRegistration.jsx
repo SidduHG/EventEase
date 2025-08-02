@@ -16,7 +16,7 @@ const EventRegistration = ({user}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/events/${eventId}`);
+        const response = await axios.get(apiUrl(`/api/events/${eventId}`));
         if (response.data.registrationType !== 'free') {
           alert('This registration is only available for free events.');
           navigate('/'); // Redirect to home or appropriate page
@@ -42,7 +42,7 @@ const EventRegistration = ({user}) => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await axios.post(`${apiUrl}/api/registrations`, {
+      const response = await axios.post(apiUrl('/api/registrations'), {
         ...formData,
         event: eventId
       }, {
@@ -50,6 +50,7 @@ const EventRegistration = ({user}) => {
           Authorization: `Bearer ${token}`
         }
       });
+
 
 
       console.log('Registration successful:', response.data);

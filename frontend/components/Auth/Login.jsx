@@ -20,7 +20,7 @@ const Login = () => {
     setErr('');
 
     try {
-      const res = await axios.post(`${apiUrl}/api/auth/login`, { email, password });
+      const res = await axios.post(apiUrl('/api/auth/login'), { email, password });
 
       const { token, user } = res.data;
 
@@ -42,6 +42,7 @@ const Login = () => {
       setErr(error.response?.data?.message || 'Login failed');
     }
   };
+
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 overflow-hidden relative">

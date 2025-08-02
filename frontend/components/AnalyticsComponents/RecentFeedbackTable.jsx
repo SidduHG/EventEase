@@ -7,7 +7,7 @@ const RecentFeedbackTable = () => {
   const [feedbacks, setFeedbacks] = useState([]);
 
   useEffect(() => {
-    axios.get(`${apiUrl}/api/admin/feedbacks`)
+    axios.get(apiUrl(`/api/admin/feedbacks`))
       .then(res => setFeedbacks(res.data))
       .catch(err => console.error(err));
   }, []);

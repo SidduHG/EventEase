@@ -10,7 +10,7 @@ const EventSummaryCards = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`${apiUrl}/api/adminanalytics/event-stats`)
+    axios.get(apiUrl('/api/adminanalytics/event-stats'))
       .then(res => {
         setEventStats(res.data);
         setIsLoading(false);

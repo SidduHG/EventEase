@@ -19,9 +19,7 @@ const FilteredEventList = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const res = await axios.get(
-          `${apiUrl}/api/admindashboard/filter?type=${selectedType}&time=${selectedTime}`
-        );
+      const res = await axios.get(apiUrl(`/api/admindashboard/filter?type=${selectedType}&time=${selectedTime}`));
         setFilteredEvents(res.data);
       } catch (err) {
         console.error('Failed to fetch filtered events', err);

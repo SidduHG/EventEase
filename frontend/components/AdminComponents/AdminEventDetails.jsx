@@ -18,7 +18,7 @@ const EventDetails = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const res = await axios.get(`${apiUrl}/api/admindashboard/event-details/${eventId}`);
+        const res = await axios.get(apiUrl(`/api/admindashboard/event-details/${eventId}`));
         const fetchedEvent = res.data;
         setEvent(fetchedEvent);
         setAttendeeCount(fetchedEvent.attendeeCount || 0);

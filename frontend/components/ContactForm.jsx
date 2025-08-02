@@ -22,7 +22,7 @@ const ContactSection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${apiUrl}/api/home/contact`, formData);
+      const res = await axios.post(apiUrl(`/api/home/contact`), formData);
       setSuccess(res.data.message);
       setFormData({ name: '', email: '', message: '' });
     } catch (err) {

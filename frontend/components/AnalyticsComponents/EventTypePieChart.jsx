@@ -21,7 +21,7 @@ const EventTypePieChart = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`${apiUrl}/api/adminanalytics/event-type-stats`)
+     axios.get(apiUrl('/api/adminanalytics/event-type-stats'))
       .then(res => {
         setEventTypes(res.data);
         setIsLoading(false);

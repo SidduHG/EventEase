@@ -10,17 +10,21 @@ const UserSignupsLineChart = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    axios.get(`${apiUrl}/api/adminanalytics/user-signups`)
-      .then(res => {
-        setSignups(res.data);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setIsLoading(false);
-      });
-  }, []);
+      const fetchSignups = async () => {
+        try {
+          setIsLoading(true);
+          const res = await axios.get(apiUrl('/api/adminanalytics/user-signups'));
+          setSignups(res.data);
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchSignups();
+    }, []);
+
 
   return (
     <div className="bg-white rounded-xl shadow-xl overflow-hidden">

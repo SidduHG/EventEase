@@ -27,9 +27,10 @@ const GetVerified = ({ isVerified, onVerified = () => {} }) => {
     }
 
     try {
-      const { data: order } = await axios.post(`${apiUrl}/api/payment/create-order`, {
+      const { data: order } = await axios.post(apiUrl('/api/payment/create-order'), {
         amount: 1
       });
+
 
       const userId = localStorage.getItem("userId");
       if (!userId) {
@@ -39,7 +40,7 @@ const GetVerified = ({ isVerified, onVerified = () => {} }) => {
       }
 
       const options = {
-        key: "rzp_test_hZphwB1deRBvWD",
+        key: "rzp_test_lF2OUq0xHwr3UH",
         amount: order.amount,
         currency: order.currency,
         name: "EventEase",
@@ -49,15 +50,15 @@ const GetVerified = ({ isVerified, onVerified = () => {} }) => {
 
         handler: async function (response) {
           try {
-            const verifyRes = await axios.post(`${apiUrl}/api/payment/verify-payment`, {
+            const verifyRes = await axios.post(apiUrl('/api/payment/verify-payment'), {
               ...response
             }, {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}` // ✅ if token needed
+                Authorization: `Bearer ${localStorage.getItem("token")}`
               }
             });
 
-                    console.log('Verification response:', verifyRes.data); // Add logging
+            console.log('Verification response:', verifyRes.data); // Add logging
 
             if (verifyRes.data.success) {
               alert("Verification successful! You can now publish events.");

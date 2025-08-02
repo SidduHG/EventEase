@@ -19,11 +19,12 @@ const EventTickets = () => {
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/events/${eventId}/ticket`, {
+        const response = await axios.get(apiUrl(`/api/events/${eventId}/ticket`), {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
+
         setTicketData(response.data);
         setLoading(false);
       } catch (err) {

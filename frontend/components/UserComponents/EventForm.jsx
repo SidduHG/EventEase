@@ -73,12 +73,13 @@ const EventForm = ({ onSubmit, initialData = {} }) => {
 
       // Submit to backend
       const token = localStorage.getItem('token');
-      const res = await axios.post(`${apiUrl}/api/events`, payload, {
+      const res = await axios.post(apiUrl('/api/events'), payload, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
+
 
       if (res.status === 201) {
         alert('Event created successfully!');

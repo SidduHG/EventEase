@@ -12,8 +12,7 @@ const VerifyTicket = () => {
   const verifyTicket = async (qrData) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${apiUrl}/api/events/verify-ticket`,
+      const response = await axios.post(apiUrl(`/api/events/verify-ticket`),
         qrData,
         {
           headers: {

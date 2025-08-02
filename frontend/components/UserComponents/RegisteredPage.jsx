@@ -18,11 +18,12 @@ const RegisteredPage = () => {
 
   const fetchRegisteredEvents = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/registrations/registered-events`, {
+      const response = await axios.get(apiUrl('/api/registrations/registered-events'), {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+
       setRegisteredEvents(response.data);
       setLoading(false);
     } catch (err) {

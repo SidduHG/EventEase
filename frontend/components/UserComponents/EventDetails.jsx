@@ -15,11 +15,11 @@ const EventDetails = () => {
     const fetchEventAndUpcoming = async () => {
       try {
         setLoading(true);
-        const eventResponse = await axios.get(`${apiUrl}/api/events/${eventId}`);
+        const eventResponse = await axios.get(apiUrl(`/api/events/${eventId}`));
         setEvent(eventResponse.data);
         
         if (eventResponse.data) {
-          const upcomingResponse = await axios.get(`${apiUrl}/api/events`, {
+          const upcomingResponse = await axios.get(apiUrl(`/api/events`), {
             params: {
               type: eventResponse.data.type,
               limit: 3,
