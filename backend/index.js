@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 const allowedOrigins = [
-  'https://event-ease-sidduabd41-4966s-projects.vercel.app'
+  'https://event-ease-ktzox3jl4-sidduabd41-4966s-projects.vercel.app'
 ];
 
 app.use(cors({
